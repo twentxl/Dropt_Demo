@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header {
+    background-color: #24272D;
+    color: #ffffff;
+    padding: 5px 20px;
+    position: relative;
+    z-index: 1;
+}
+.logo img{
+    width: 100px;
+    position: relative;
+    top: 5px;
+}
+.headerList {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+.headerList li {
+    margin-left: 20px;
+}
