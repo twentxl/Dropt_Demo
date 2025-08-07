@@ -2,14 +2,14 @@ import React from 'react';
 import style from "./ToolsItem.module.css";
 
 interface ToolsItemProps {
-    icon: React.ElementType<{size: number}>;
+    icon: string;
     text: string;
     onClick?: () => void;
 }
-const ToolsItem: React.FC<ToolsItemProps> = ({ icon: Icon, text, onClick }) => {
+const ToolsItem: React.FC<ToolsItemProps> = ({ icon, text, onClick }) => {
     return (
         <div className={style.toolsItem} onClick={onClick}>
-            <Icon size={20} />
+            <img src={icon} alt="text" />
             <span style={{ marginTop: "5px", fontSize: "14px" }}>{text}</span>
         </div>
     )

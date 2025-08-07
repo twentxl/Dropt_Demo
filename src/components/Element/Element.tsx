@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 interface ElementProps {
-    icon: React.ElementType;
+    icon: string;
     name: string;
     isSelected: boolean;
     color: string;
@@ -9,7 +9,7 @@ interface ElementProps {
     onMove: (position: { x: number; y: number }) => void;
     onResize?: (size: { width: number; height: number }) => void;
 }
-const Element: React.FC<ElementProps> = ({ icon: Icon, name, isSelected, color, onSelect, onMove, onResize }) => {
+const Element: React.FC<ElementProps> = ({ icon, name, isSelected, color, onSelect, onMove, onResize }) => {
     const elementRef = useRef<HTMLDivElement>(null);
     const lastX = useRef<number | null>(null);
     const lastY = useRef<number | null>(null);
@@ -172,7 +172,9 @@ const Element: React.FC<ElementProps> = ({ icon: Icon, name, isSelected, color, 
                     width: `${elementSize.width}px`, height: `${elementSize.height}px`, 
                     position: 'relative', left:`${elementMove.x}px`, top: `${elementMove.y}px`
                     }}>
-            <Icon style={{ fontSize: `${elementSize.height * 0.8}px`, 
+            <img src={icon} alt={name} style={{ 
+                            width: '100%',
+                            height: '100%',
                             color: color,
                             display: 'block',
                             margin: 'auto',

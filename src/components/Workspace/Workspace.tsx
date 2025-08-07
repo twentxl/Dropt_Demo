@@ -8,6 +8,9 @@ import ToolsItem from '../ToolsItem/ToolsItem';
 import Element from '../Element/Element';
 import { GetCode } from '../../helper/helper';
 
+import tableIcon from "../Toolbar_Icons/tableIcon.svg";
+import chairIcon from "../Toolbar_Icons/chairIcon.svg";
+
 import defaultCursor from '../../../public/cursor.svg';
 
 interface ElementData {
@@ -24,7 +27,7 @@ const Workspace = () => {
     const [elementPosition, setElementPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     const [elementColor, setElementColor] = useState<string>("#000000");
 
-    const addElement = (name: string, icon: any) => {
+    const addElement = (name: string, icon: string) => {
         name = name + "=" + GetCode(8);
         const newElementData: ElementData = {
             name,
@@ -96,7 +99,7 @@ const Workspace = () => {
                     <Button text="Save" type="primary" icon={IoSaveSharp} />
                 </li>
                 <li>
-                    <Button text="Share" type="warning" icon={IoShareSharp} />
+                    <Button text="Export" type="warning" icon={IoShareSharp} />
                 </li>
             </ul>
         </Header>
@@ -105,8 +108,8 @@ const Workspace = () => {
             <div className={`${style.sidebar} ${style.toolsSidebar}`}>
                 <Sidebar title="Tools">
                     <div className={style.toolsContent}>
-                        <ToolsItem text="Save" icon={IoSaveSharp}  onClick={() => addElement("Save", IoSaveSharp)}/>
-                        <ToolsItem text="Share" icon={IoShareSharp} onClick={() => addElement("Share", IoShareSharp)} />
+                        <ToolsItem text="Table" icon={tableIcon}  onClick={() => addElement("Table", tableIcon)}/>
+                        <ToolsItem text="Chair" icon={chairIcon} onClick={() => addElement("Chair", chairIcon)} />
                     </div>
                 </Sidebar>
             </div>
