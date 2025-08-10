@@ -11,6 +11,3 @@
 .toolsItem:hover {
     background-color: #333740;
 }
-.toolsItem img {
-    filter: invert(1);
-}

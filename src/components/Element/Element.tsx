@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 interface ElementProps {
-    icon: string;
+    icon: React.ElementType;
     name: string;
     isSelected: boolean;
     color: string;
-    onSelect: (name: string, position: { x: number; y: number }, color: string) => void;
+    onSelect: (name: string, position: { x: number; y: number }, color: string, size: { width: number; height: number }) => void;
     onMove: (position: { x: number; y: number }) => void;
     onResize?: (size: { width: number; height: number }) => void;
 }
-const Element: React.FC<ElementProps> = ({ icon, name, isSelected, color, onSelect, onMove, onResize }) => {
+const Element: React.FC<ElementProps> = ({ icon: Icon, name, isSelected, color, onSelect, onMove, onResize }) => {
     const elementRef = useRef<HTMLDivElement>(null);
     const lastX = useRef<number | null>(null);
     const lastY = useRef<number | null>(null);
@@ -24,7 +24,8 @@ const Element: React.FC<ElementProps> = ({ icon, name, isSelected, color, onSele
         if (elementRef.current) {
             const rect = elementRef.current.getBoundingClientRect();
             const position = { x: Math.round(rect.left), y: Math.round(rect.top) };
-            onSelect(name, position, elementColor);
+            const size = { width: elementSize.width, height: elementSize.height }
+            onSelect(name, position, elementColor, size);
         }
     };
 
@@ -116,9 +117,9 @@ const Element: React.FC<ElementProps> = ({ icon, name, isSelected, color, onSele
         setElementMove({ x: newLeft, y: newTop });
 
         if (onResize) onResize({ width: newWidth, height: newHeight });
-        };
+    };
 
-        const stopResize = () => {
+    const stopResize = () => {
         isResizing.current = false;
         document.removeEventListener('mousemove', handleResize);
         document.removeEventListener('mouseup', stopResize);
@@ -172,10 +173,9 @@ const Element: React.FC<ElementProps> = ({ icon, name, isSelected, color, onSele
                     width: `${elementSize.width}px`, height: `${elementSize.height}px`, 
                     position: 'relative', left:`${elementMove.x}px`, top: `${elementMove.y}px`
                     }}>
-            <img src={icon} alt={name} style={{ 
-                            width: '100%',
+            <Icon aria-label={name} style={{  width: '100%',
                             height: '100%',
-                            color: color,
+                            fill: color,
                             display: 'block',
                             margin: 'auto',
                             paddingTop: '10%'}}/>

@@ -8,14 +8,14 @@ import ToolsItem from '../ToolsItem/ToolsItem';
 import Element from '../Element/Element';
 import { GetCode } from '../../helper/helper';
 
-import tableIcon from "../Toolbar_Icons/tableIcon.svg";
-import chairIcon from "../Toolbar_Icons/chairIcon.svg";
+import TableIcon from "../Toolbar_Icons/tableIcon.svg?react";
+import ChairIcon from "../Toolbar_Icons/chairIcon.svg?react";
 
 import defaultCursor from '../../../public/cursor.svg';
 
 interface ElementData {
   name: string;
-  icon: any;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   color: string;
 }
 const Workspace = () => {
@@ -26,8 +26,9 @@ const Workspace = () => {
     const [elementName, setElementName] = useState<string | null>(null);
     const [elementPosition, setElementPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     const [elementColor, setElementColor] = useState<string>("#000000");
+    const [elementSize, setElementSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
 
-    const addElement = (name: string, icon: string) => {
+    const addElement = (name: string, icon: any) => {
         name = name + "=" + GetCode(8);
         const newElementData: ElementData = {
             name,
@@ -54,11 +55,12 @@ const Workspace = () => {
         }
     };
 
-    const handleElementSelect = (name: string, position: { x: number; y: number }, color: string) => {
+    const handleElementSelect = (name: string, position: { x: number; y: number }, color: string, size: { width: number, height: number }) => {
         setElementName(name);
         setElementPosition(position);
         setElementColor(color);
         setSelectedElementName(name);
+        setElementSize(size)
     };
     const handleElementMove = (position: { x: number; y: number }) => {
         setElementPosition(prev => ({
@@ -108,8 +110,8 @@ const Workspace = () => {
             <div className={`${style.sidebar} ${style.toolsSidebar}`}>
                 <Sidebar title="Tools">
                     <div className={style.toolsContent}>
-                        <ToolsItem text="Table" icon={tableIcon}  onClick={() => addElement("Table", tableIcon)}/>
-                        <ToolsItem text="Chair" icon={chairIcon} onClick={() => addElement("Chair", chairIcon)} />
+                        <ToolsItem text="Table" icon={TableIcon}  onClick={() => addElement("Table", TableIcon)}/>
+                        <ToolsItem text="Chair" icon={ChairIcon} onClick={() => addElement("Chair", ChairIcon)} />
                     </div>
                 </Sidebar>
             </div>
@@ -141,6 +143,12 @@ const Workspace = () => {
                     </div>
                     <div className={style.propertyItem}>
                         Position Y: <span>{elementPosition.y}</span>
+                    </div>
+                    <div className={style.propertyItem}>
+                        Width: <span>{elementSize.width}</span>
+                    </div>
+                    <div className={style.propertyItem}>
+                        Height: <span>{elementSize.height}</span>
                     </div>
                     <div className={style.propertyItem}>
                         Color: {elementColor}
