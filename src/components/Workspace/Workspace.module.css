@@ -65,6 +65,8 @@ body {
     position: absolute;
 }
 .propertyItem {
+    display: flex;
+    align-items: center;
     font-size: 14px;
     margin-top: 20px;
 }

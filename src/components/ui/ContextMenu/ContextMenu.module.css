@@ -1,0 +1,22 @@
+.contextMenu {
+    z-index: 99;
+    padding: 5px 0;
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #1c1c1c;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #c4c4c4;
+}
+.contextMenu li {
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    user-select: none;
+    list-style: none;
+    padding: 0 10px;
+    transition: 0.1s;
+}
+.contextMenu li:hover {
+    background-color: #d4d4d4;
+    align-items: center;
+}

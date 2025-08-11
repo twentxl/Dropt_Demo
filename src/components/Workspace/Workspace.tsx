@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import style from "./Workspace.module.css";
 import Header from '../Header/Header';
 import Button from '../ui/Button/Button';
+import Input from '../ui/Input/Input';
+import ContextMenu, { ContextMenuItem } from '../ui/ContextMenu/ContextMenu';
 import { IoSaveSharp, IoShareSharp} from "react-icons/io5";
 import Sidebar from '../Sidebar/Sidebar';
 import ToolsItem from '../ToolsItem/ToolsItem';
@@ -25,7 +27,7 @@ const Workspace = () => {
     const [selectedElementName, setSelectedElementName] = useState<string | null>(null);
     const [elementName, setElementName] = useState<string | null>(null);
     const [elementPosition, setElementPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-    const [elementColor, setElementColor] = useState<string>("#000000");
+    const [elementColor, setElementColor] = useState<string>("");
     const [elementSize, setElementSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
 
     const addElement = (name: string, icon: any) => {
@@ -33,7 +35,7 @@ const Workspace = () => {
         const newElementData: ElementData = {
             name,
             icon,
-            color: elementColor,
+            color: "#000000",
         };
         setElementsData((prev) => [...prev, newElementData]);
     };
@@ -84,8 +86,22 @@ const Workspace = () => {
         };
     }, [handleWheel]);
 
+    const setColor = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const newColor = e.target.value;
+        setElementColor(newColor);
+
+        setElementsData((prev) =>
+            prev.map((el) =>
+            el.name === selectedElementName ? { ...el, color: newColor } : el
+            )
+        );
+    };
+
     return (
         <>
+        <ContextMenu area={workspaceRef}>
+            <ContextMenuItem text="Delete element" icon={IoSaveSharp}/>
+        </ContextMenu>
         <div className={style.toolBar}>
             <div className={style.toolBar__content}>
                 <div id="defaultCursor" className={style.cursor}>
@@ -151,7 +167,7 @@ const Workspace = () => {
                         Height: <span>{elementSize.height}</span>
                     </div>
                     <div className={style.propertyItem}>
-                        Color: {elementColor}
+                        Color: <span><Input value={elementColor} onChange={setColor} /></span>
                     </div>
                 </Sidebar>
             </div>
