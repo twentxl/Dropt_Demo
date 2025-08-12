@@ -1,4 +1,128 @@
 import React, { useState, useEffect, useRef } from 'react';
+import style from './Element.module.css';
+
+interface TextElementProps {
+    name: string;
+    isSelected: boolean;
+    color: string;
+    onSelect: (name: string, position: { x: number; y: number }, color: string) => void;
+    onMove: (position: { x: number; y: number }) => void;
+}
+
+export const TextElement: React.FC<TextElementProps> = ({ name, isSelected, color, onSelect, onMove }) => {
+    const elementRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const lastX = useRef<number | null>(null);
+    const lastY = useRef<number | null>(null);
+    const isDragging = useRef(false);
+    const isResizing = useRef(false);
+
+    const [elementMove, setElementMove] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+    const [text, setText] = useState<string>('Text');
+
+    const elementClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (elementRef.current) {
+            const rect = elementRef.current.getBoundingClientRect();
+            const position = { x: Math.round(rect.left), y: Math.round(rect.top) };
+            onSelect(name, position, color);
+        }
+    };
+
+    const mouseDown: React.MouseEventHandler<HTMLDivElement> = (e) => {
+        if (!isSelected) return;
+        e.preventDefault();
+        isDragging.current = true;
+        lastX.current = e.clientX;
+        lastY.current = e.clientY;
+    };
+    const mouseUp = () => {
+        isDragging.current = false;
+        isResizing.current = false;
+        lastX.current = null;
+        lastY.current = null;
+    };
+    const mouseMove = (e: MouseEvent) => {
+        if (isResizing.current && lastX.current !== null && lastY.current !== null) {
+            lastX.current = e.clientX;
+            lastY.current = e.clientY;
+        } else if (isDragging.current && lastX.current !== null && lastY.current !== null) {
+            const deltaX = e.clientX - lastX.current;
+            const deltaY = e.clientY - lastY.current;
+
+            setElementMove((prev) => ({
+                x: prev.x + deltaX,
+                y: prev.y + deltaY,
+            }));
+
+            onMove({ x: elementMove.x + deltaX, y: elementMove.y + deltaY });
+
+            lastX.current = e.clientX;
+            lastY.current = e.clientY;
+        }
+    };
+
+    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setText(e.target.value);
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousemove', mouseMove);
+        document.addEventListener('mouseup', mouseUp);
+
+        return () => {
+            document.removeEventListener('mousemove', mouseMove);
+            document.removeEventListener('mouseup', mouseUp);
+        };
+    }, [isSelected, elementMove, onMove]);
+
+    useEffect(() => {
+        if (elementRef.current && isSelected) {
+            const rect = elementRef.current.getBoundingClientRect();
+            const position = { x: Math.round(rect.left), y: Math.round(rect.top) };
+            onSelect(name, position, color);
+        }
+    }, [isSelected, color, elementMove]);
+
+    return (
+        <div
+            ref={elementRef}
+            id={`element?${name}`}
+            onClick={elementClick}
+            onMouseDown={isSelected ? mouseDown : undefined}
+            className={style.textElementWrapper}
+            style={{
+                position: 'absolute',
+                left: `${elementMove.x}px`,
+                top: `${elementMove.y}px`,
+                border: isSelected ? '2px solid #ff7700' : '2px solid transparent',
+                borderRadius: '4px',
+                cursor: 'move',
+                overflow: 'visible',
+            }}
+        >
+            <input
+                ref={inputRef}
+                type="text"
+                value={text}
+                onChange={handleTextChange}
+                className={style.textElement}
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    fontSize: '14px',
+                    color: color,
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    outline: 'none',
+                    padding: '0 6px',
+                    boxSizing: 'border-box',
+                }}
+                onClick={(e) => e.stopPropagation()}
+            />
+        </div>
+    );
+};
 
 interface ElementProps {
     icon: React.ElementType;

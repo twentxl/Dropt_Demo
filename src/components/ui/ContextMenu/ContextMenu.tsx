@@ -23,7 +23,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ children, area }) => {
     const [visible, setVisible] = useState<boolean>(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
-    const blockRef = useRef<HTMLDivElement | null>(null);
+    const blockRef = useRef<HTMLUListElement | null>(null);
 
     const contextMenuShow = useCallback((event: MouseEvent) => {
         event.preventDefault();
@@ -54,18 +54,13 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ children, area }) => {
     return (
         <>
         {visible && (
-            <div
-          className={style.contextMenu}
-          style={{ top: position.y, left: position.x }}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          ref={blockRef}
-        >
-            <ul className={style.contextMenu}>
+            <ul
+            className={style.contextMenu}
+            style={{ top: position.y, left: position.x }}
+            ref={blockRef}
+            >
                 {children}
             </ul>
-        </div>
         )}
         </>
     )

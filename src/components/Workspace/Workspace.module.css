@@ -18,14 +18,15 @@ body {
     padding: 15px;
     border-radius: 15px;
 }
-.cursor {
+.toolBar__element {
     width: 30px;
     border-radius: 10px;
+    margin: 0 5px;
 }
-.cursor.active {
-    background-color: #343a44;
+.toolBar__element.active {
+    background-color: #383a3e;
 }
-.cursor img {
+.toolBar__element img {
     width: 100%;
 }
 .headerList {
