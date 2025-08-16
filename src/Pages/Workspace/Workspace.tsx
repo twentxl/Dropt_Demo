@@ -1,20 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import style from "./Workspace.module.css";
-import Header from '../Header/Header';
-import Button from '../ui/Button/Button';
-import Input from '../ui/Input/Input';
-import ContextMenu, { ContextMenuItem } from '../ui/ContextMenu/ContextMenu';
+import Header from '../../components/Header/Header';
+import Button from '../../components/ui/Button/Button';
+import Input from '../../components/ui/Input/Input';
+import ContextMenu, { ContextMenuItem } from '../../components/ui/ContextMenu/ContextMenu';
 import { IoSaveSharp, IoShareSharp, IoTrash} from "react-icons/io5";
-import Sidebar from '../Sidebar/Sidebar';
-import ToolsItem from '../ToolsItem/ToolsItem';
-import Element, { TextElement } from '../Element/Element';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import ToolsItem from '../../components/ToolsItem/ToolsItem';
+import Element, { TextElement } from '../../components/Element/Element';
 import { GetCode } from '../../helper/helper';
 
-import TableIcon from "../Toolbar_Icons/tableIcon.svg?react";
-import ChairIcon from "../Toolbar_Icons/chairIcon.svg?react";
+import TableIcon from "../../components/Toolbar_Icons/tableIcon.svg?react";
+import ChairIcon from "../../components/Toolbar_Icons/chairIcon.svg?react";
 
 import defaultCursor from '../../../public/cursor.svg';
-import textElementIcon from '../Toolbar_Icons/textElement.png';
+import textElementIcon from '../../components/Toolbar_Icons/textElement.png';
 
 interface ElementData {
   name: string;
@@ -31,14 +31,6 @@ const Workspace = () => {
     const [elementColor, setElementColor] = useState<string>("");
     const [elementSize, setElementSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
 
-    const addTextElement = (name: string) => {
-        name = name + "=" + GetCode(8);
-        const newElementData: ElementData = {
-            name,
-            color: "#000000",
-        };
-        setElementsData((prev) => [...prev, newElementData]);
-    };
     const addElement = (name: string, icon?: any) => {
         name = name + "=" + GetCode(8);
         const newElementData: ElementData = {
@@ -49,6 +41,7 @@ const Workspace = () => {
         setElementsData((prev) => [...prev, newElementData]);
     };
     const deleteElement = () => {
+        console.log(selectedElementName);
         if (!selectedElementName) return;
         setElementsData(prev => prev.filter(element => element.name !== selectedElementName));
     };
@@ -118,16 +111,18 @@ const Workspace = () => {
 
     return (
         <>
-        <ContextMenu area={workspaceRef}>
-            <ContextMenuItem text="Remove element" icon={IoTrash} onClick={deleteElement}/>
-        </ContextMenu>
+        {selectedElementName && (
+            <ContextMenu area={workspaceRef}>
+                <ContextMenuItem text="Remove" icon={IoTrash} onClick={deleteElement}/>
+            </ContextMenu>
+        )}
         <div className={style.toolBar}>
             <div className={style.toolBar__content}>
                 <div id="defaultCursor" className={`${style.toolBar__element} ${style.active}`}>
                     <img src={defaultCursor} alt="defaultCursor" />
                 </div>
                 <div id="addTextElement" className={style.toolBar__element}>
-                    <img src={textElementIcon} alt="defaultCursor" style={{ filter: 'invert(1)' }} onClick={() => addTextElement("Text")}/>
+                    <img src={textElementIcon} alt="defaultCursor" style={{ filter: 'invert(1)' }} onClick={() => addElement("Text")}/>
                 </div>
             </div>
         </div>
@@ -160,9 +155,9 @@ const Workspace = () => {
                 <div className={style.editor}>
                     {elementsData.map((el) => (
                         !el.icon ? (
-                            <TextElement name={"TextTest"} 
-                                color={"#000000"}
-                                isSelected={selectedElementName === "TextTest"}
+                            <TextElement name={el.name} 
+                                color={el.color}
+                                isSelected={selectedElementName === el.name}
                                 onSelect={handleTextElementSelect}
                                 onMove={handleElementMove}/>
                         ) : (

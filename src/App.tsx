@@ -1,5 +1,5 @@
 import React from 'react';
-import Workspace from './components/Workspace/Workspace';
+import Workspace from './Pages/Workspace/Workspace';
 
 function App() {
 
