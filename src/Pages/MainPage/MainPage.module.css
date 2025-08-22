@@ -1,0 +1,41 @@
+.sectionBlock {
+    width: 50%;
+}
+.section {
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+}
+.mainSection_content {
+    display: flex;
+    justify-content: space-between;
+}
+.mainSection_image {
+    width: 40%;
+    border-radius: 10px;
+}
+.mainSection_image img {
+    width: 100%;
+    border-radius: 10px;
+}
+.mainSection_text {
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.mainSection_text h1 span {
+    position: relative;
+    display: inline-block;
+    background-color: #FF973C;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+.mainSection_cursor {
+    width: 80px;
+    position: absolute;
+    right: -40px;
+    bottom: -40px;
+}

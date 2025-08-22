@@ -1,11 +1,11 @@
 import React from 'react';
-import Workspace from './Pages/Workspace/Workspace';
+import MainPage from './Pages/MainPage/MainPage';
 
 function App() {
 
   return (
     <>
-      <Workspace />
+      <MainPage />
     </>
   )
 }

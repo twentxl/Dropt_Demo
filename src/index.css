@@ -8,13 +8,35 @@
   outline: none;
   font-family: "Inter", sans-serif;
 }
+
+h1, h2, h3, h4, h5, h6 { font-weight: 800; }
+@media only screen and (min-width: 989px) {
+  h1 { font-size: 48px; }
+  h2 { font-size: 36px; }
+  h3 { font-size: 24px; }
+  h4 { font-size: 18px; }
+  h5 { font-size: 16px; }
+  h6 { font-size: 14px; }
+}
+@media only screen and (min-width: 1400px) {
+  h1 { font-size: 64px; }
+  h2 { font-size: 48px; }
+  h3 { font-size: 36px; }
+  h4 { font-size: 24px; }
+  h5 { font-size: 18px; }
+  h6 { font-size: 16px; }
+}
+
 body {
-  background-color: #E1E3E8;
   font-size: 16px;
   color: #1c1c1c;
 }
+.body-workspace {
+    overflow: hidden;
+    background-color: #E1E3E8;
+}
 .container {
-  max-width: 80%;
+  max-width: 90%;
   margin: auto;
 }
 @media(min-width: 2100px) {
@@ -24,4 +46,7 @@ body {
 }
 .iconIsActive {
     border-color:#f70 !important;
+}
+a {
+  text-decoration: none;
 }

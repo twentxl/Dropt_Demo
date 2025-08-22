@@ -4,11 +4,12 @@
     justify-content: space-between;
 }
 .header {
-    background-color: #24272D;
-    color: #ffffff;
-    padding: 5px 20px;
     position: relative;
     z-index: 1;
+}
+.headerWorkspace {
+    background-color: #24272D;
+    color: #ffffff;
 }
 .logo img{
     width: 100px;
@@ -21,5 +22,12 @@
     align-items: center;
 }
 .headerList li {
-    margin-left: 20px;
+    margin-left: 60px;
+}
+.headerList li a {
+    color: #1c1c1c;
+    transition: 0.1s all;
+}
+.headerList li a:hover {
+    color: #FF973C;
 }

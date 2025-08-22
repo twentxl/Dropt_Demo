@@ -8,7 +8,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ children, title }) => {
     return (
         <div className={style.sidebar}>
-            <h2 style={{ marginBottom: "20px" }}>{title}</h2>
+            <h4 style={{ marginBottom: "20px" }}>{title}</h4>
             <div className={style.content}>
                 {children}
             </div>

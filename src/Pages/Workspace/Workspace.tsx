@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import style from "./Workspace.module.css";
-import Header from '../../components/Header/Header';
+import { HeaderWorkspace } from '../../components/Header/Header';
 import Button from '../../components/ui/Button/Button';
 import Input from '../../components/ui/Input/Input';
 import ContextMenu, { ContextMenuItem } from '../../components/ui/ContextMenu/ContextMenu';
@@ -10,11 +10,11 @@ import ToolsItem from '../../components/ToolsItem/ToolsItem';
 import Element, { TextElement } from '../../components/Element/Element';
 import { GetCode } from '../../helper/helper';
 
-import TableIcon from "../../components/Toolbar_Icons/tableIcon.svg?react";
-import ChairIcon from "../../components/Toolbar_Icons/chairIcon.svg?react";
+import TableIcon from "../../img/Toolbar_Icons/tableIcon.svg?react";
+import ChairIcon from "../../img/Toolbar_Icons/chairIcon.svg?react";
 
 import defaultCursor from '../../../public/cursor.svg';
-import textElementIcon from '../../components/Toolbar_Icons/textElement.png';
+import textElementIcon from '../../img/Toolbar_Icons/textElement.png';
 
 interface ElementData {
   name: string;
@@ -91,9 +91,11 @@ const Workspace = () => {
     };
 
     useEffect(() => {
+        document.body.classList.add('body-workspace');
         document.addEventListener("wheel", handleWheel, { passive: false });
 
         return () => {
+            document.body.classList.remove('body-workspace');
             document.removeEventListener("wheel", handleWheel);
         };
     }, [handleWheel]);
@@ -127,7 +129,7 @@ const Workspace = () => {
             </div>
         </div>
 
-        <Header>
+        <HeaderWorkspace>
             <div className="workspaceTitle">Untitled name</div>
             <ul className={style.headerList}>
                 <li>
@@ -137,7 +139,7 @@ const Workspace = () => {
                     <Button text="Export" type="warning" icon={IoShareSharp} />
                 </li>
             </ul>
-        </Header>
+        </HeaderWorkspace>
 
         <div className={style.content}>
             <div className={`${style.sidebar} ${style.toolsSidebar}`}>
