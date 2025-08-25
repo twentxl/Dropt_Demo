@@ -1,0 +1,29 @@
+.footer {
+    padding: 30px 0;
+}
+.footerContainer {
+    max-width: 50%;
+    margin: auto;
+    border-top: 1px solid #1c1c1c;
+    padding-top: 20px;
+}
+@media(min-width: 2100px) {
+  .footerContainer {
+    max-width: 1250px;
+  }
+}
+
+.footerList li a {
+    color: #1c1c1c;
+    transition: 0.1s all;
+}
+.footerList {
+    display: flex;
+    justify-content: space-between;
+}
+.footerList li {
+    list-style-type: none;
+}
+.footerList li a:hover {
+    color: #FF973C;
+}

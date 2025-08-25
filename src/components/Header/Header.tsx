@@ -42,7 +42,7 @@ const Header = () => {
                         <a href="#">Support</a>
                     </li>
                     <li>
-                        <Button text="Try Dropt" type="warning" onClick={() => navigate("workspace")} />
+                        <Button text="Go to Dropt" type="warning" onClick={() => navigate("workspace")} />
                     </li>
                 </ul>
             </div>

@@ -12,7 +12,7 @@ interface TextElementProps {
 
 export const TextElement: React.FC<TextElementProps> = ({ name, isSelected, color, onSelect, onMove, onResize }) => {
     const elementRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
     const lastX = useRef<number | null>(null);
     const lastY = useRef<number | null>(null);
     const isDragging = useRef(false);
@@ -176,8 +176,21 @@ export const TextElement: React.FC<TextElementProps> = ({ name, isSelected, colo
     };
     //Resize code end
 
-    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setText(e.target.value);
+    const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value;
+        setText(value);
+
+        const textarea = e.target;
+        textarea.style.height = 'auto';
+        const newHeight = Math.max(30, textarea.scrollHeight);
+        textarea.style.height = `${newHeight}px`;
+
+        setElementSize(prev => ({
+            ...prev,
+            height: newHeight
+        }));
+
+        if (onResize) onResize({ width: elementSize.width, height: newHeight });
     };
 
     useEffect(() => {
@@ -218,9 +231,8 @@ export const TextElement: React.FC<TextElementProps> = ({ name, isSelected, colo
                 overflow: 'visible',
             }}
         >
-            <input
-                ref={inputRef}
-                type="text"
+            <textarea
+                ref={textareaRef}
                 value={text}
                 onChange={handleTextChange}
                 className={style.textElement}
@@ -232,6 +244,8 @@ export const TextElement: React.FC<TextElementProps> = ({ name, isSelected, colo
                     outline: 'none',
                     padding: '0 6px',
                     boxSizing: 'border-box',
+                    width: '100%',
+                    height: '100%',
                 }}
             />
 
